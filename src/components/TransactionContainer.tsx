@@ -18,7 +18,7 @@ const TransactionContainer: FC<TransactionContainerProps> = ({ categories }) => 
 				categories={categories}
 				transactions={transactions}
 			/>
-			<TransactionCharts categories={categories} />
+			<TransactionCharts />
 		</>
 	);
 };

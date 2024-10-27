@@ -7,15 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTransactionContext } from "@/context/TransactionContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { nanoid } from "nanoid";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 import * as z from "zod";
 
 const transactionSchema = z.object({
 	category: z.string().min(1, "Category is required"),
 	type: z.enum(["income", "expense"], { required_error: "Type is required" }),
-	amount: z.number().positive("Amount must be positive"),
+	amount: z.number().positive("Amount must be a positive number"),
 });
 
 interface TransactionModalProps {
@@ -66,7 +66,7 @@ const TransactionModal: FC<TransactionModalProps> = ({ categories, transactionTo
 			// Add new transaction
 			const newTransaction: Transaction = {
 				...data,
-				id: nanoid(),
+				id: uuid(),
 				date: new Date().toISOString().split("T")[0],
 			};
 			handleAddTransaction(newTransaction);
@@ -167,7 +167,10 @@ const TransactionModal: FC<TransactionModalProps> = ({ categories, transactionTo
 											step="0.01"
 											placeholder="Enter amount"
 											{...field}
-											onChange={(e) => field.onChange(parseFloat(e.target.value))}
+											onChange={(e) => {
+												const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+												field.onChange(value);
+											}}
 										/>
 									</FormControl>
 									<FormMessage />

@@ -3,23 +3,23 @@
 import { useTransactionContext } from "@/context/TransactionContext";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Chart } from "chart.js/auto";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
-interface TransactionChartsProps {
-	categories: Category[];
-}
-
-const TransactionCharts: FC<TransactionChartsProps> = ({ categories }) => {
-	const [timePeriod, setTimePeriod] = useState<"This Week" | "This Mouth" | "This Year">("This Mouth");
+const TransactionCharts: FC = () => {
+	const [timePeriod, setTimePeriod] = useState<"This Week" | "This Month" | "This Year">("This Month");
 	const { transactions } = useTransactionContext();
 
-	const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>(transactions);
+	const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
 
 	Chart.defaults.responsive = true;
 	Chart.defaults.maintainAspectRatio = false;
+
+	useEffect(() => {
+		filterTransactionsByTimePeriod(timePeriod);
+	}, [transactions, timePeriod]);
 
 	const filterTransactionsByTimePeriod = (period: string) => {
 		const now = new Date();
@@ -27,24 +27,36 @@ const TransactionCharts: FC<TransactionChartsProps> = ({ categories }) => {
 
 		switch (period) {
 			case "This Week":
-				const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+				const startOfWeek = new Date(now);
+				const dayOfWeek = startOfWeek.getDay(); // Get the current day of the week
+
+				if (dayOfWeek === 0) {
+					// If it's Sunday , set to the previous Monday
+					startOfWeek.setDate(startOfWeek.getDate() - 6);
+				} else {
+					// Otherwise, subtract the number of days to get to Monday
+					startOfWeek.setDate(startOfWeek.getDate() - (dayOfWeek - 1));
+				}
 				filtered = transactions.filter((transaction) => {
 					const transactionDate = new Date(transaction.date);
-					return transactionDate >= startOfWeek;
+					return transactionDate >= startOfWeek && transactionDate <= now;
 				});
+
 				break;
 			case "This Month":
 				const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+				startOfMonth.setHours(0, 0, 0, 0);
 				filtered = transactions.filter((transaction) => {
 					const transactionDate = new Date(transaction.date);
-					return transactionDate >= startOfMonth;
+					return transactionDate >= startOfMonth && transactionDate <= now;
 				});
 				break;
 			case "This Year":
 				const startOfYear = new Date(now.getFullYear(), 0, 1);
+				startOfYear.setHours(0, 0, 0, 0);
 				filtered = transactions.filter((transaction) => {
 					const transactionDate = new Date(transaction.date);
-					return transactionDate >= startOfYear;
+					return transactionDate >= startOfYear && transactionDate <= now;
 				});
 				break;
 			default:
@@ -54,13 +66,9 @@ const TransactionCharts: FC<TransactionChartsProps> = ({ categories }) => {
 		setFilteredTransactions(filtered);
 	};
 
-	const handleTimePeriodChange = (value: "This Week" | "This Mouth" | "This Year") => {
+	const handleTimePeriodChange = (value: "This Week" | "This Month" | "This Year") => {
 		setTimePeriod(value);
-		filterTransactionsByTimePeriod(value);
 	};
-
-	const incomeChart = filteredTransactions.filter((transaction) => transaction.type === "income");
-	const expenseChart = filteredTransactions.filter((transaction) => transaction.type === "expense");
 
 	const aggregateByCategory = (type: "income" | "expense") => {
 		return filteredTransactions
@@ -115,15 +123,21 @@ const TransactionCharts: FC<TransactionChartsProps> = ({ categories }) => {
 								datasets: [
 									{
 										label: "Income",
-										data: incomeChart.map((transaction) => transaction.amount),
+										data: filteredTransactions.map((transaction) => {
+											return transaction.type === "income" ? transaction.amount : 0;
+										}),
 										borderColor: "#22c55e",
 										backgroundColor: "rgba(34, 197, 94, 0.2)",
+										tension: 0.1,
 									},
 									{
 										label: "Expense",
-										data: expenseChart.map((transaction) => transaction.amount),
+										data: filteredTransactions.map((transaction) => {
+											return transaction.type === "expense" ? transaction.amount : 0;
+										}),
 										borderColor: "#FF3030",
 										backgroundColor: "rgba(255, 48, 48, 0.2)",
+										tension: 0.1,
 									},
 								],
 							}}
@@ -141,7 +155,7 @@ const TransactionCharts: FC<TransactionChartsProps> = ({ categories }) => {
 					<div className="w-full h-[300px] border-l p-2">
 						<Bar
 							data={{
-								labels: categories.map((category) => category.name),
+								labels: combinedLabels,
 								datasets: [
 									{
 										label: "Expense",

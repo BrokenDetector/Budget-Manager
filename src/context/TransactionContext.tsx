@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 interface TransactionContextType {
 	transactions: Transaction[];
 	handleAddTransaction: (transaction: Transaction) => void;
-	handleDeleteTransaction: (id: string) => void;
+	handleDeleteTransaction: (transaction: Transaction) => void;
 	handleUpdateTransaction: (updatedTransaction: Transaction) => void;
 	totalIncome: number;
 	totalExpenses: number;
@@ -25,9 +25,9 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const data = await getTransactions();
+				const data = (await getTransactions()) as Transaction[];
 
-				setTransactions(data);
+				setTransactions(data || []);
 			} catch (error) {
 				if (error instanceof Error) {
 					toast.error(error.message);
@@ -54,10 +54,7 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 	};
 
 	const handleAddTransaction = async (transaction: Transaction) => {
-		setTransactions((prev) => {
-			const newTransactions = [...prev, transaction];
-			return newTransactions;
-		});
+		setTransactions((prev) => [...prev, transaction]);
 		try {
 			await addTransaction(transaction);
 		} catch (error) {
@@ -76,7 +73,7 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 			)
 		);
 		try {
-			await updateTransaction(updatedTransaction.id, updatedTransaction);
+			await updateTransaction(updatedTransaction);
 		} catch (error) {
 			if (error instanceof Error) {
 				toast.error(error.message);
@@ -86,10 +83,10 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 		}
 	};
 
-	const handleDeleteTransaction = async (id: string) => {
-		setTransactions((prev) => prev.filter((transaction) => transaction.id !== id));
+	const handleDeleteTransaction = async (transaction: Transaction) => {
+		setTransactions((prev) => prev.filter((tx) => tx.id !== transaction.id));
 		try {
-			await deleteTransaction(id);
+			await deleteTransaction(transaction);
 		} catch (error) {
 			if (error instanceof Error) {
 				toast.error(error.message);

@@ -15,6 +15,7 @@ interface TransactionListProps {
 
 const TransactionList: FC<TransactionListProps> = ({ categories, transactions }) => {
 	const { handleDeleteTransaction } = useTransactionContext();
+
 	const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 	const [startDate, setStartDate] = useState<string>("");
 	const [endDate, setEndDate] = useState<string>("");
@@ -55,47 +56,52 @@ const TransactionList: FC<TransactionListProps> = ({ categories, transactions })
 			<CardContent>
 				<div className="flex flex-col w-full p-4 space-y-4 overflow-y-auto max-h-60">
 					<ul>
-						{filteredTransactions
-							.slice()
-							.reverse()
-							.map((transaction) => (
-								<div
-									key={transaction.id}
-									className="flex items-center justify-between"
-								>
-									<div>
-										<p className="font-medium">{transaction.category}</p>
-										<p className="text-sm text-muted-foreground">
-											{transaction.type === "income" ? "Income" : "Expense"}
-										</p>
-									</div>
-									<div className="flex items-center space-x-2">
-										<div
-											className={`font-bold ${
-												transaction.type === "income" ? "text-green-500" : "text-red-500"
-											}`}
-										>
-											{transaction.type === "income" ? "+" : "-"}${transaction.amount.toFixed(2)}
+						{filteredTransactions.length > 0 ? (
+							filteredTransactions
+								.slice()
+								.reverse()
+								.map((transaction) => (
+									<li
+										key={transaction.id}
+										className="flex items-center justify-between"
+									>
+										<div>
+											<p className="font-medium">{transaction.category}</p>
+											<p className="text-sm text-muted-foreground">
+												{transaction.type === "income" ? "Income" : "Expense"}
+											</p>
 										</div>
-										<Button
-											variant="ghost"
-											size="icon"
-											onClick={() => handleEditClick(transaction)}
-										>
-											<PencilIcon className="h-4 w-4" />
-											<span className="sr-only">Edit transaction</span>
-										</Button>
-										<Button
-											variant="ghost"
-											size="icon"
-											onClick={() => handleDeleteTransaction(transaction.id)}
-										>
-											<TrashIcon className="h-4 w-4" />
-											<span className="sr-only">Delete transaction</span>
-										</Button>
-									</div>
-								</div>
-							))}
+										<div className="flex items-center space-x-2">
+											<div
+												className={`font-bold ${
+													transaction.type === "income" ? "text-green-500" : "text-red-500"
+												}`}
+											>
+												{transaction.type === "income" ? "+" : "-"}$
+												{transaction.amount.toFixed(2)}
+											</div>
+											<Button
+												variant="ghost"
+												size="icon"
+												onClick={() => handleEditClick(transaction)}
+											>
+												<PencilIcon className="h-4 w-4" />
+												<span className="sr-only">Edit transaction</span>
+											</Button>
+											<Button
+												variant="ghost"
+												size="icon"
+												onClick={() => handleDeleteTransaction(transaction)}
+											>
+												<TrashIcon className="h-4 w-4" />
+												<span className="sr-only">Delete transaction</span>
+											</Button>
+										</div>
+									</li>
+								))
+						) : (
+							<p>No transactions available</p>
+						)}
 					</ul>
 				</div>
 			</CardContent>
