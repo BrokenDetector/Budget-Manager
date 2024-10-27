@@ -65,7 +65,6 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 			}
 		}
 	};
-
 	const handleUpdateTransaction = async (updatedTransaction: Transaction) => {
 		setTransactions((prev) =>
 			prev.map((transaction) =>
@@ -73,7 +72,7 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 			)
 		);
 		try {
-			await updateTransaction(updatedTransaction);
+			await updateTransaction(updatedTransaction.id, updatedTransaction);
 		} catch (error) {
 			if (error instanceof Error) {
 				toast.error(error.message);
@@ -83,10 +82,11 @@ export const TransactionProvider: FC<{ children: ReactNode }> = ({ children }) =
 		}
 	};
 
+
 	const handleDeleteTransaction = async (transaction: Transaction) => {
 		setTransactions((prev) => prev.filter((tx) => tx.id !== transaction.id));
 		try {
-			await deleteTransaction(transaction);
+			await deleteTransaction(transaction.id);
 		} catch (error) {
 			if (error instanceof Error) {
 				toast.error(error.message);

@@ -1,120 +1,85 @@
 {
-	"transactions": [
-		{
-			"id": "2",
-			"type": "expense",
-			"category": "Groceries",
-			"amount": 150.75,
-			"date": "2024-9-11"
-		},
-		{
-			"id": "3",
-			"type": "income",
-			"category": "Freelance",
-			"amount": 500,
-			"date": "2024-10-01"
-		},
-		{
-			"id": "4",
-			"type": "expense",
-			"category": "Rent",
-			"amount": 340,
-			"date": "2024-10-06"
-		},
-		{
-			"id": "5",
-			"type": "expense",
-			"category": "Utilities",
-			"amount": 100.5,
-			"date": "2024-10-07"
-		},
-		{
-			"id": "6",
-			"type": "income",
-			"category": "Investments",
-			"amount": 150,
-			"date": "2024-10-10"
-		},
-		{
-			"id": "7",
-			"type": "expense",
-			"category": "Entertainment",
-			"amount": 60,
-			"date": "2024-10-12"
-		},
-		{
-			"id": "9",
-			"type": "income",
-			"category": "Salary",
-			"amount": 700,
-			"date": "2024-10-20"
-		},
-		{
-			"id": "10",
-			"type": "expense",
-			"category": "Healthcare",
-			"amount": 75.5,
-			"date": "2024-10-24"
-		},
-		{
-			"id": "KBP_HfQl4wa4l2qlcxVe5",
-			"category": "Freelance",
-			"type": "income",
-			"amount": 80,
-			"date": "2024-10-26"
-		},
-		{
-			"id": "4f444b79-cba5-4db7-ab4c-e59805c1439a",
-			"category": "Salary",
-			"type": "income",
-			"amount": 298,
-			"date": "2024-10-27"
-		}
-	],
-	"categories": [
-		{
-			"id": "1",
-			"name": "Salary"
-		},
-		{
-			"id": "2",
-			"name": "Freelance"
-		},
-		{
-			"id": "3",
-			"name": "Investments"
-		},
-		{
-			"id": "4",
-			"name": "Groceries"
-		},
-		{
-			"id": "5",
-			"name": "Rent"
-		},
-		{
-			"id": "6",
-			"name": "Utilities"
-		},
-		{
-			"id": "7",
-			"name": "Entertainment"
-		},
-		{
-			"id": "8",
-			"name": "Transportation"
-		},
-		{
-			"id": "9",
-			"name": "Education"
-		},
-		{
-			"id": "10",
-			"name": "Healthcare"
-		},
-		{
-			"id": "11",
-			"name": "Other"
-		}
-	]
+  "transactions": [
+    {
+      "id": "2",
+      "type": "expense",
+      "category": "Groceries",
+      "amount": 150.75,
+      "date": "2024-9-11"
+    },
+    {
+      "id": "7",
+      "type": "expense",
+      "category": "Entertainment",
+      "amount": 60,
+      "date": "2024-10-12"
+    },
+    {
+      "id": "KBP_HfQl4wa4l2qlcxVe5",
+      "category": "Freelance",
+      "type": "income",
+      "amount": 80,
+      "date": "2024-10-26"
+    },
+    {
+      "id": "0809ba58-7cbf-417b-8f90-bcb80bec51a0",
+      "category": "Groceries",
+      "type": "expense",
+      "amount": 10,
+      "date": "2024-10-27"
+    },
+    {
+      "id": "0873ae21-01fa-4fee-a038-46c21031a617",
+      "category": "Groceries",
+      "type": "expense",
+      "amount": 30,
+      "date": "2024-10-27"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Salary"
+    },
+    {
+      "id": "2",
+      "name": "Freelance"
+    },
+    {
+      "id": "3",
+      "name": "Investments"
+    },
+    {
+      "id": "4",
+      "name": "Groceries"
+    },
+    {
+      "id": "5",
+      "name": "Rent"
+    },
+    {
+      "id": "6",
+      "name": "Utilities"
+    },
+    {
+      "id": "7",
+      "name": "Entertainment"
+    },
+    {
+      "id": "8",
+      "name": "Transportation"
+    },
+    {
+      "id": "9",
+      "name": "Education"
+    },
+    {
+      "id": "10",
+      "name": "Healthcare"
+    },
+    {
+      "id": "11",
+      "name": "Other"
+    }
+  ]
 }
