@@ -7,6 +7,8 @@ This project is developed for the task outlined on [Beautiful Code](https://beau
 
 ![Alt text for the image](./images/screenshot.png)
 
+### Live on [Vercel]()
+
 ## Table of Contents
 
 - [Features](#features)
