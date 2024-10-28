@@ -2,15 +2,6 @@
 
 import { db } from "@/lib/db";
 
-// Define the Transaction type if not defined elsewhere
-interface Transaction {
-	id: string;
-	type: string;
-	category: string;
-	amount: number;
-	date: string;
-}
-
 const API_URL = "http://localhost:3001/transactions";
 const useRedis = process.env.USE_REDIS === "true";
 
@@ -94,7 +85,7 @@ const performTransactionOperation = async (
 
 		// Determine the URL for the fetch request
 		const url = method === "DELETE" ? `${API_URL}/${transaction!.id}` : API_URL;
-		console.log(url);
+
 		try {
 			const response = await fetch(url, requestOptions);
 

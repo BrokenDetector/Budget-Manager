@@ -28,21 +28,28 @@ const TransactionCharts: FC = () => {
 		switch (period) {
 			case "This Week":
 				const startOfWeek = new Date(now);
-				const dayOfWeek = startOfWeek.getDay(); // Get the current day of the week
+				const dayOfWeek = startOfWeek.getDay();
 
 				if (dayOfWeek === 0) {
-					// If it's Sunday , set to the previous Monday
+					// If it's Sunday, go back to the previous Monday
 					startOfWeek.setDate(startOfWeek.getDate() - 6);
 				} else {
-					// Otherwise, subtract the number of days to get to Monday
+					// For other days, go back to the most recent Monday
 					startOfWeek.setDate(startOfWeek.getDate() - (dayOfWeek - 1));
 				}
+				startOfWeek.setHours(0, 0, 0, 0);
+
+				const endOfWeek = new Date(startOfWeek);
+				endOfWeek.setDate(endOfWeek.getDate() + 7);
+				endOfWeek.setHours(0, 0, 0, 0);
+
 				filtered = transactions.filter((transaction) => {
 					const transactionDate = new Date(transaction.date);
-					return transactionDate >= startOfWeek && transactionDate <= now;
+					return transactionDate >= startOfWeek && transactionDate < endOfWeek;
 				});
 
 				break;
+
 			case "This Month":
 				const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 				startOfMonth.setHours(0, 0, 0, 0);
@@ -51,6 +58,7 @@ const TransactionCharts: FC = () => {
 					return transactionDate >= startOfMonth && transactionDate <= now;
 				});
 				break;
+
 			case "This Year":
 				const startOfYear = new Date(now.getFullYear(), 0, 1);
 				startOfYear.setHours(0, 0, 0, 0);

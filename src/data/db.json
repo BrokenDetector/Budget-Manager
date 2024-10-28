@@ -34,6 +34,13 @@
       "type": "expense",
       "amount": 30,
       "date": "2024-10-27"
+    },
+    {
+      "id": "a5238251-701f-40a5-846a-685d60c56503",
+      "category": "Other",
+      "type": "income",
+      "amount": 150,
+      "date": "2024-10-28"
     }
   ],
   "categories": [

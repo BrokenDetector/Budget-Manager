@@ -179,7 +179,7 @@ describe("TransactionContext", () => {
 			screen.getByTestId("update-transaction").click();
 		});
 
-		expect(transactionsService.updateTransaction).toHaveBeenCalledWith(expect.objectContaining(updatedTransaction));
+		expect(transactionsService.updateTransaction).toHaveBeenCalledWith("1", updatedTransaction);
 		expect(screen.getByTestId("income").textContent).toBe("600");
 	});
 
@@ -205,13 +205,7 @@ describe("TransactionContext", () => {
 			screen.getByTestId("delete-transaction").click();
 		});
 
-		expect(transactionsService.deleteTransaction).toHaveBeenCalledWith({
-			id: "2",
-			type: "expense",
-			amount: 200,
-			date: "2023-10-22",
-			category: "Groceries",
-		});
+		expect(transactionsService.deleteTransaction).toHaveBeenCalledWith("2");
 
 		expect(screen.getByTestId("income").textContent).toBe("500");
 		expect(screen.getByTestId("expenses").textContent).toBe("0");
