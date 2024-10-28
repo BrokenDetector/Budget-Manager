@@ -7,7 +7,7 @@ This project is developed for the task outlined on [Beautiful Code](https://beau
 
 ![Alt text for the image](./images/screenshot.png)
 
-### Live on [Vercel]()
+### Live on [Vercel](https://budget-manager-six-ashy.vercel.app/)
 
 ## Table of Contents
 
@@ -81,4 +81,4 @@ The following scripts are available in this project:
 - `server`: Starts the JSON server on port 3001.
 - `build`: Builds the application for production.
 - `start`: Starts the production server.
-- `lint`: Runs ESLint for code quality.aHere's the updated README with the **Features** and 
+- `lint`: Runs ESLint for code.
